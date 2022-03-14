@@ -1,4 +1,4 @@
-from typing import Sequence, Union, Type
+from typing import Sequence, Union, Type, List
 
 from qiskit import QuantumCircuit
 from qiskit.circuit import Instruction, Qubit, Clbit
@@ -10,14 +10,14 @@ def insert_instruction(
         circuit: QuantumCircuit, instruction: Instruction, qubits: Sequence[Union[Qubit, int]],
         clbits: Sequence[Union[Clbit, int]], index: int, in_place: bool = True) -> QuantumCircuit:
     """
-
-    :param circuit:
-    :param instruction:
-    :param qubits:
-    :param clbits:
-    :param index:
-    :param in_place:
-    :return:
+    insert instruction at a specified place (in lists of instructions from circuit.data)
+    :param circuit: circuit where the instructions should be inserted
+    :param instruction: instruction to be inserted
+    :param qubits: qubits used for the instruction (can be indexes or objects
+    :param clbits: clbits used for the instruction (can be indexes or objects)
+    :param index: index where the instruction will be placed in circuit.data
+    :param in_place: creates new circuit if False and returns it, otherwise updates the provided circuit and returns it
+    :return: circuit with instruction inserted
     """
 
     new_circuit = circuit if in_place else circuit.copy()
@@ -40,13 +40,13 @@ def insert_instruction(
     return new_circuit
 
 
-def _parse_bit(bits: Sequence[Union[Bit, int]], bit_type: Type[Bit], circuit: QuantumCircuit):
+def _parse_bit(bits: Sequence[Union[Bit, int]], bit_type: Type[Bit], circuit: QuantumCircuit) -> List[Bit]:
     """
-
-    :param bits:
-    :param bit_type:
-    :param circuit:
-    :return:
+    parse bits into list of bits (not just its indices) or throws exception if incorrect arguments
+    :param bits: list of bits or indices of bits to be parsed
+    :param bit_type: either Clbit or Qubit
+    :param circuit: circuit for which the bits are to be parsed
+    :return: list of Clbits/Qubits
     """
     parsed_bits = []
     type_name = {bit_type.__name__}

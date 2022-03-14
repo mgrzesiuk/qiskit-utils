@@ -12,12 +12,12 @@ class QuantumCircuitEnhanced(QuantumCircuit):
             self, instruction: Instruction, qubits: Union[Sequence[Qubit, int]],
             clbits: Union[Sequence[Clbit, int]], index: int, in_place: bool = True) -> QuantumCircuit:
         """
-
-        :param instruction:
-        :param qubits:
-        :param clbits:
-        :param index:
-        :param in_place:
-        :return:
+        insert instruction at a specified place (in lists of instructions from circuit.data)
+        :param instruction: instruction to be inserted
+        :param qubits: qubits used for the instruction (can be indexes or objects
+        :param clbits: clbits used for the instruction (can be indexes or objects)
+        :param index: index where the instruction will be placed in self.data
+        :param in_place: creates new circuit if False and returns it, otherwise updates self and returns it
+        :return: circuit with instruction inserted
         """
         return insert_instruction(self, instruction, qubits, clbits, index, in_place=in_place)
