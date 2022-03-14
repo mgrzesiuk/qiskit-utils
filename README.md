@@ -1,2 +1,6 @@
-# qiskit-result-parser
-qiskit-result-parser is quality of life package for parsing results returned by Qiskit into a form in which accessing measurements for a given qubit is easier.
+# qiskit-utils
+qiskit-utils is quality of life package containing utility methods for using qiskit.
+
+current methods:
+  - parsing results
+  - inserting instructions and gates into circuit (in any location not just append the gate to the circuit)
