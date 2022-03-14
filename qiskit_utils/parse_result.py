@@ -1,6 +1,6 @@
 from typing import Dict, Union, List
 
-from qiskit import QuantumCircuit, ClassicalRegister, QuantumRegister, Aer, transpile
+from qiskit import QuantumCircuit
 from qiskit.circuit import Qubit, Clbit
 from qiskit.result import Result
 
