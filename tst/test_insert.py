@@ -76,6 +76,13 @@ class TestInsert(TestCase):
             instruction = Measure()
             insert_instruction(circuit, instruction, (circuit.qubits[0],), (Clbit(), ), 3)
 
+    def test_insert_raises_index_error_when_index_out_of_range(self):
+        with raises(IndexError) as exc:
+            circuit = self._prepare_circuit()
+            instruction = RGate(pi / 2, pi / 4)
+            insert_instruction(circuit, instruction, (0,), (), 10)
+        assert str(exc.value) == "index provided is larger than current number of instructions"
+
     @staticmethod
     def _prepare_circuit() -> QuantumCircuit:
         circuit = QuantumCircuit(3, 2)
