@@ -25,9 +25,6 @@ def insert_instruction(
     if not isinstance(instruction, Instruction):
         raise ValueError("specified instruction is not of type Instruction")
 
-    if index > len(new_circuit.data):
-        raise IndexError("index provided is larger than current number of instructions")
-
     if len(qubits) != instruction.num_qubits or len(clbits) != instruction.num_clbits:
         raise CircuitError(
             "number of qubits or clbits provided doesn't match instruction's qubits and clbits requirements")
