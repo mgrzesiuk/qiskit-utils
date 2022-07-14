@@ -1,12 +1,12 @@
-from typing import Dict, Union, List
+from typing import Dict, Union, List, Set
 
 from qiskit import QuantumCircuit
-from qiskit.circuit import Qubit, Clbit
+from qiskit.circuit import Qubit, Clbit, Measure
 from qiskit.result import Result
 
 
 def parse_result(
-        qiskit_result: Result, circuit: QuantumCircuit,
+        qiskit_result: Result, circuit: QuantumCircuit, measurement_names: Set[str]={Measure().name},
         indexed_results: bool = True) -> Dict[Union[Qubit, int], Dict[str, int]]:
     """
     parse results into a dictionary where keys are the qubits (or its indices) and values are dictionaries containing
@@ -16,7 +16,7 @@ def parse_result(
     :param indexed_results: if true keys for dictionary are indices if false it's Qubit objects
     :return: dictionary containing parsed results
     """
-    qubit_clbit_mapping = _get_qubit_mapping(circuit)
+    qubit_clbit_mapping = _get_qubit_mapping(circuit, measurement_names)
     parsed_results = {}
     for state, count in qiskit_result.get_counts().items():
         parsed_state = _parse_state(state)
@@ -36,7 +36,7 @@ def parse_result(
     return parsed_results
 
 
-def _get_qubit_mapping(circuit: QuantumCircuit) -> List[Union[None, int]]:
+def _get_qubit_mapping(circuit: QuantumCircuit, measurement_names: Set[str]) -> List[Union[None, int]]:
     """
     return mapping between index of a qubit and a real index of its
     measurement result in the state returned by get_counts(). indices do not consider spaces so state must have spaces
@@ -45,9 +45,10 @@ def _get_qubit_mapping(circuit: QuantumCircuit) -> List[Union[None, int]]:
     :return: mapping between qubit indices and its measurement indices
     """
     qubit_mapping = [None] * circuit.num_qubits
-    for instruction, qubits, bits in circuit.get_instructions('measure'):
-        qubit_index = circuit.qubits.index(qubits[0])
-        qubit_mapping[qubit_index] = _get_real_clbit_index(circuit, bits[0])
+    for instruction, qubits, bits in circuit.data:
+        if instruction.name in measurement_names:
+            qubit_index = circuit.qubits.index(qubits[0])
+            qubit_mapping[qubit_index] = _get_real_clbit_index(circuit, bits[0])
     return qubit_mapping
 
 
