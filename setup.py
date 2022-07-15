@@ -7,7 +7,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name='qiskit_utils',
-    version='1.1.8',
+    version='1.2',
     license='MIT',
     author="Marek Grzesiuk",
     packages=['qiskit_utils'],
