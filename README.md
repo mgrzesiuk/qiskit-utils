@@ -58,3 +58,6 @@ parsed_counts = parse_counts(result, qc)
 # parsed_counts = {"10": 1024} while the get_counts from qiskit would return {"0 1": 1024}
 ```
 Note, qubits that had no measurements found for them are marked as - in the bitstring
+
+## More examples
+examples of usage can be found in a testing library [qiskit-check](https://github.com/mgrzesiuk/qiskit-check)

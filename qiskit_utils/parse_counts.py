@@ -25,7 +25,11 @@ def parse_counts(qiskit_result: Result, circuit: QuantumCircuit, measurement_nam
                 continue
 
             new_state[qubit_index] = parsed_state[measurement_index]
-        parsed_results[''.join(new_state)] = count
+        parsed_count = ''.join(new_state)
+        if parsed_count in parsed_results:
+            parsed_results[parsed_count] += count
+        else:
+            parsed_results[parsed_count] = count
 
 
     return parsed_results

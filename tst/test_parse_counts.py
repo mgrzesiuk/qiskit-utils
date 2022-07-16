@@ -16,6 +16,14 @@ class TestParseCounts(TestCase):
         parsed_counts = parse_counts(result, qc)
         assert parsed_counts == {"10-": 1024}
 
+    def test_parse_one_register_accumulates_states(self):
+        qc = QuantumCircuit(2, 1)
+        qc.h(1)
+        qc.measure(0, 0)
+        result = self._get_counts(qc)
+        parsed_counts = parse_counts(result, qc)
+        assert parsed_counts == {"0-": 1024}
+
     def test_parse_measure_all(self):
         qc = QuantumCircuit(3, 2)
         qc.x(1)
